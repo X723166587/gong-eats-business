@@ -1,0 +1,54 @@
+@import url("https://use.typekit.net/mhu6oec.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --shadow-color: 18deg 27% 62%;
+  --shadow-elevation-low:
+          0px 0.3px 0.3px hsl(var(--shadow-color) / 0.56),
+          0px 0.4px 0.4px -2px hsl(var(--shadow-color) / 0.42),
+          -0.1px 1.1px 1px -4.1px hsl(var(--shadow-color) / 0.27);
+  --shadow-elevation-medium:
+          0px 0.3px 0.3px hsl(var(--shadow-color) / 0.59),
+          0px 0.6px 0.5px -1.4px hsl(var(--shadow-color) / 0.48),
+          -0.1px 2px 1.8px -2.7px hsl(var(--shadow-color) / 0.36),
+          -0.3px 5.5px 4.9px -4.1px hsl(var(--shadow-color) / 0.25);
+  --shadow-elevation-high:
+          0px 0.3px 0.3px hsl(var(--shadow-color) / 0.55),
+          0px 0.8px 0.7px -0.6px hsl(var(--shadow-color) / 0.5),
+          -0.1px 1.6px 1.4px -1.2px hsl(var(--shadow-color) / 0.44),
+          -0.2px 3.3px 2.9px -1.8px hsl(var(--shadow-color) / 0.39),
+          -0.3px 6.2px 5.5px -2.3px hsl(var(--shadow-color) / 0.34),
+          -0.6px 10.9px 9.7px -2.9px hsl(var(--shadow-color) / 0.28),
+          -0.9px 17.7px 15.7px -3.5px hsl(var(--shadow-color) / 0.23),
+          -1.4px 27.3px 24.2px -4.1px hsl(var(--shadow-color) / 0.17);
+}
+
+html {
+  height: 100%;
+  font-family: "sofia-pro", sans-serif;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+@layer components {
+  .subtract-nav {
+    @apply top-[84px]
+  }
+
+  .input-base {
+    @apply font-semibold text-base rounded-full overflow-hidden;
+  }
+  .card-title {
+    @apply font-semibold tracking-tight text-2xl md:text-xl sm:text-lg pb-0
+  }
+  .card-subtitle {
+    @apply font-medium tracking-wider text-base md:text-sm sm:text-sm
+  }
+}
