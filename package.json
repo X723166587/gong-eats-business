@@ -14,6 +14,7 @@
     "immer": "^10.1.1",
     "material-symbols": "^0.18.0",
     "next": "14.2.3",
+    "node-cron": "^3.0.3",
     "react": "^18",
     "react-dom": "^18",
     "slugify": "^1.6.6",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/node-cron": "^3.0.11",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",

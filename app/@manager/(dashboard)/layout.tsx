@@ -1,11 +1,18 @@
-import React from "react";
-import NavIsland from "@/app/components/nav-island";
+'use client'
+
+import React, {useEffect} from "react";
+import {useThemeStore} from "@/app/providers/theme-store-provider";
 
 export default function ManagerLayout({children}: {children: React.ReactNode}) {
+    const { setBackground } = useThemeStore((state => state))
+
+    useEffect(() => {
+        setBackground("bg-surfaceContainer")
+    })
+
     return (
-        <div className="min-h-screen">
+        <div>
             <main>
-                <NavIsland />
                 {children}
             </main>
         </div>

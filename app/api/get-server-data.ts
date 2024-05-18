@@ -1,5 +1,6 @@
 export default async function getServerData(url: string) {
     // The return value is *not* serialized
+    // console.log(process.env.SERVER_URL + url)
 
     const response = await fetch(process.env.SERVER_URL + url, {method: 'GET', cache: 'no-store'})
     if (!response.ok) {

@@ -41,7 +41,9 @@ body {
   .subtract-nav {
     @apply top-[84px]
   }
-
+   .grid-container {
+       @apply bg-surface p-6 rounded-3xl
+   }
   .input-base {
     @apply font-semibold text-base rounded-full overflow-hidden;
   }

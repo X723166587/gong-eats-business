@@ -20,7 +20,7 @@ export const MaterialIcon: React.FC<IconProps> = ({
                                  fontSize = 24
                              }: IconProps) => {
     return (
-        <span
+        <div
             className={`material-symbols-${iconStyle} mx-auto`}
             style={{
                 fontVariationSettings: `'FILL' ${fill}, 'wght' ${weight}, 'GRAD' ${grade}, 'opsz' ${opticalSize}`,
@@ -28,6 +28,6 @@ export const MaterialIcon: React.FC<IconProps> = ({
 
             }}>
         {iconName}
-      </span>
+      </div>
     );
 }
