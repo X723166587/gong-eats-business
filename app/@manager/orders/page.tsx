@@ -1,48 +1,41 @@
-import React from "react";
-import cron from "node-cron";
+'use client'
+
+import React, {useCallback} from "react";
 import {Card_Order} from "@/app/components/card";
-import getServerData from "@/app/api/get-server-data";
-import {CustomerData, OrderData, OrderItemData} from "@/app/api/definitions";
+import {useEffect, useState} from "react";
+import getOrders from "@/app/api/orders/get-orders";
+import {CustomerData, OrderData} from "@/app/api/definitions";
 
-export default async function OrdersPage() {
-    const restaurantId = 1
-    let ordersData: OrderData[] = []
+export default function OrdersPage() {
+    //  Automatically update the view when the status of an order is changed
+    const [orders, setOrders] = useState<Array<OrderData & CustomerData & {item_count: number}>>([])
+    const [prevOrderCount, setPrevOrderCount] = useState<number>(0)
 
-    // TODO: Update the view when a new order is received using useEffect()
+    const fetchOrders = useCallback(async () => {
+        const updatedOrders = await getOrders()
+        // TODO: Check if there's a new order and notify the user
+        // if (updatedOrders.length > prevOrderCount) {
+        //     console.log("New order received!")
+        // }
+        // setPrevOrderCount(updatedOrders.length)
+        setOrders(updatedOrders)
+    }, [prevOrderCount])
 
-    const fetchOrders = async () => {
-        const newOrderData: OrderData[] = await getServerData(`/orders/restaurant/${restaurantId}`)
-        if (newOrderData.length > ordersData.length) {
-            // Push a notification
-            console.log("New order received")
-        }
-        ordersData = newOrderData
-    }
+    useEffect(() => {
+        void fetchOrders()
 
-    await fetchOrders()
-    cron.schedule('*/10 * * * * *', fetchOrders)
+        // Fetch orders every 5 seconds
+        const intervalID = setInterval(fetchOrders, 5000)
 
-    console.log(ordersData)
+        // Cleanup interval on unmount
+        return () => clearInterval(intervalID)
+    }, [])
 
-    let orders: Array<OrderData & CustomerData & {item_count: number}> = []
-
-    for (const order of ordersData) {
-        const customerData: CustomerData = await getServerData(`/customer?customer_id=${order.customer_id}`)
-        const orderItemsData: OrderItemData[] = await getServerData(`/api/orderitems/${order.order_id}`)
-
-        const orderItemCounts = orderItemsData.reduce((acc, item) => acc + item.quantity, 0)
-
-        orders.push({
-            ...order,
-            ...customerData,
-            item_count: orderItemCounts
-        })
-    }
-
-    // TODO: Automatically update the view when the status of an order is changed
 
     const preparingOrders = orders.filter(order => order.order_status === "confirmed" || order.order_status === "accepted")
     const deliveringOrders = orders.filter(order => order.order_status === "delivering")
+    const pastOrders = orders.filter(order => order.order_status === "delivered" || order.order_status === "rejected")
+    const sortedPastOrders = pastOrders.sort((a, b) =>  b.order_id! - a.order_id! )
 
 
     const SectionContainer = ({children, sectionTitle, orderCounts}: { children: React.ReactNode, sectionTitle: string, orderCounts: number }) => {
@@ -63,33 +56,56 @@ export default async function OrdersPage() {
     }
 
     return (
-        <div className="grid grid-cols-2 gap-6">
-            <SectionContainer sectionTitle="Preparing" orderCounts={preparingOrders.length}>
-                {preparingOrders.map((order) => (
-                    <Card_Order order_id={order.order_id}
-                                order_status={order.order_status}
-                                order_subtotal={order.order_subtotal}
-                                items_count={order.item_count}
-                                customer_name={order.customer_name}
-                                customer_address={order.customer_address}
-                                customer_phone={order.customer_phone}
-                                key={order.order_id}
-                    />
-                ))}
-            </SectionContainer>
-            <SectionContainer sectionTitle="Delivering" orderCounts={deliveringOrders.length}>
-                {deliveringOrders.map((order) => (
-                    <Card_Order order_id={order.order_id}
-                                order_status={order.order_status}
-                                order_subtotal={order.order_subtotal}
-                                items_count={order.item_count}
-                                customer_name={order.customer_name}
-                                customer_address={order.customer_address}
-                                customer_phone={order.customer_phone}
-                                key={order.order_id}
-                    />
-                ))}
-            </SectionContainer>
+        <div className="flex flex-col gap-8">
+            <div className="grid grid-cols-2 gap-6">
+                <SectionContainer sectionTitle="Preparing" orderCounts={preparingOrders.length}>
+                    {preparingOrders.map((order) => (
+                        <Card_Order order_id={order.order_id}
+                                    order_status={order.order_status}
+                                    order_subtotal={order.order_subtotal}
+                                    items_count={order.item_count}
+                                    customer_name={order.customer_name}
+                                    customer_address={order.customer_address}
+                                    customer_phone={order.customer_phone}
+                                    onStatusChange={fetchOrders}
+                                    key={order.order_id}
+                        />
+                    ))}
+                </SectionContainer>
+                <SectionContainer sectionTitle="Delivering" orderCounts={deliveringOrders.length}>
+                    {deliveringOrders.map((order) => (
+                        <Card_Order order_id={order.order_id}
+                                    order_status={order.order_status}
+                                    order_subtotal={order.order_subtotal}
+                                    items_count={order.item_count}
+                                    customer_name={order.customer_name}
+                                    customer_address={order.customer_address}
+                                    customer_phone={order.customer_phone}
+                                    onStatusChange={fetchOrders}
+                                    key={order.order_id}
+                        />
+                    ))}
+                </SectionContainer>
+            </div>
+            <div className="grid grid-cols-1">
+                <SectionContainer sectionTitle={"Past Orders"} orderCounts={0}>
+                    <div className="grid grid-cols-3 gap-8">
+                        {sortedPastOrders.map((order) => (
+                            <Card_Order order_id={order.order_id}
+                                        order_status={order.order_status}
+                                        order_subtotal={order.order_subtotal}
+                                        items_count={order.item_count}
+                                        customer_name={order.customer_name}
+                                        customer_address={order.customer_address}
+                                        customer_phone={order.customer_phone}
+                                        onStatusChange={fetchOrders}
+                                        key={order.order_id}
+                            />
+                        ))}
+                    </div>
+                </SectionContainer>
+            </div>
         </div>
+
     );
 }
