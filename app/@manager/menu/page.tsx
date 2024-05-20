@@ -34,8 +34,6 @@ export default function MenuPage() {
 
     const groupedMenuItems: Record<string, MenuItemData[]> = groupItemsByKey(menuItemData, "item_category")
 
-    console.log(selectedItem)
-
     return (
         <div className="flex flex-row gap-6">
             <div className={`${selectedItem ? "w-2/3" : "w-full"} grid-container transition-all`}>
