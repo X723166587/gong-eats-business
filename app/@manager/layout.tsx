@@ -1,6 +1,7 @@
 'use client'
 
 import NavIsland from "@/app/components/nav-island";
+import React from "react";
 
 export default function CustomerLayout({children}: {children: React.ReactNode}) {
 

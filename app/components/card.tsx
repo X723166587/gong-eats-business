@@ -1,10 +1,8 @@
 'use client'
 
-import Image from "next/image";
 import React from "react";
 import {motion, MotionProps} from "framer-motion";
 import {MaterialIcon} from "@/app/components/material-icon";
-import {emphasizedEasing_Medium} from "@/app/api/motion-config";
 import {Button} from "@/app/components/button";
 import {CustomerData, OrderData} from "@/app/api/definitions";
 import {updateOrderStatus} from "@/app/api/orders/update-order";

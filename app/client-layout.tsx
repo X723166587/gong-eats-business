@@ -1,7 +1,7 @@
 'use client'
 
 import {useThemeStore} from "@/app/providers/theme-store-provider";
-import NavIsland from "@/app/components/nav-island";
+import React from "react";
 
 export default function ClientLayout({children}: { children: React.ReactNode }) {
     const background = useThemeStore((state) => state.background)

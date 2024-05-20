@@ -8,6 +8,7 @@ import {Button} from "@/app/components/button";
 import Image from "next/image";
 import {getMenuItems} from "@/app/api/get-menu-items";
 import {emphasizedEasing_Medium} from "@/app/api/motion-config";
+import UpdateMenuForm from "@/app/@manager/menu/update-menu-form";
 
 export default function MenuPage() {
     const restaurantId = 1
@@ -21,7 +22,7 @@ export default function MenuPage() {
 
     useEffect(() => {
         void fetchMenuItems()
-    }, [])
+    }, [fetchMenuItems])
 
     const handleSelectItem = (item: MenuItemData) => {
         if (selectedItem === item) {
@@ -52,7 +53,9 @@ export default function MenuPage() {
                                     <motion.div
                                         className={`p-4 rounded-3xl border border-outlineVariant transition-all hover:bg-primaryContainer ${item === selectedItem ? "bg-primaryContainer" : "bg-surface"} cursor-pointer`}
                                         onClick={() => handleSelectItem(item)}
-                                        whileTap={{scale: 0.95, transition: emphasizedEasing_Medium}}>
+                                        whileTap={{scale: 0.95, transition: emphasizedEasing_Medium}}
+                                        key={item.item_id}
+                                    >
                                         <div key={item.item_id}
                                              className="flex flex-row justify-between items-center gap-4">
                                             <Image src={item.item_image} alt={item.item_name} width={48} height={48}
@@ -63,7 +66,7 @@ export default function MenuPage() {
                                                     <h3 className="font-semibold text-lg tracking-tight text-onSurface">{item.item_name}</h3>
                                                     <p className="font-normal text-base tracking-tight text-onSurfaceVariant">{item.item_description}</p>
                                                 </div>
-                                                <p className="font-normal text-base tracking-tight">${item.item_price.toFixed(2)}</p>
+                                                {/*<p className="font-normal text-base tracking-tight">${item.item_price.toFixed(2)}</p>*/}
                                             </div>
                                             <div className="border-b border-outlineVariant my-4"/>
                                         </div>
@@ -84,61 +87,7 @@ export default function MenuPage() {
                     </div>
                 </div>
                 <div className="border-b border-outlineVariant my-4"/>
-                <form className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="item-name" className="font-medium text-base">Name</label>
-                        <input type="text" id="item-name"
-                               className="px-4 py-2 rounded-2xl font-normal bg-surfaceContainer hover:bg-surfaceDim transform-all"
-                               value={selectedItem?.item_name ?? ""}
-                               onChange={(e) => setSelectedItem({
-                                   item_category: "",
-                                   item_description: "",
-                                   item_id: 0,
-                                   item_image: "",
-                                   item_price: 0,
-                                   restaurant_id: 0, ...selectedItem, item_name: e.target.value})}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="item-category" className="font-medium text-base">Item Category</label>
-                        <select id="item-category"
-                                className="px-4 py-2 rounded-2xl font-normal bg-surfaceContainer hover:bg-surfaceDim transform-all"
-                                value={selectedItem?.item_category ?? ""}
-                        >
-                            <option value="" disabled selected></option>
-                            {Object.keys(groupedMenuItems).map((category) => (
-                                <option value={category}>{category}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="item-description" className="font-medium text-base">Item Description</label>
-                        <textarea id="item-description"
-                                  className="px-4 py-3 rounded-2xl font-normal bg-surfaceContainer hover:bg-surfaceDim transform-all"
-                                  value={selectedItem?.item_description ?? ""}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="item-price" className="font-medium text-base">Item Price</label>
-                        <div className="flex items-center">
-                            <span className="font-semibold text-base mr-2">$</span>
-                            <input type="number" id="item-price" step="0.01"
-                                   className="px-4 py-2 rounded-2xl font-normal bg-surfaceContainer hover:bg-surfaceDim transform-all w-full"
-                                   value={selectedItem?.item_price ?? ""}
-                                   // onChange={(e) => setSelectedItem({
-                                   //     ...selectedItem,
-                                   //     item_price: parseFloat(e.target.value)
-                                   // })}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="item-image" className="font-medium text-base">Item Image</label>
-                        <input type="text" id="item-image"
-                               className="px-4 py-2 rounded-2xl font-normal bg-surfaceContainer hover:bg-surfaceDim transform-all"
-                               value={selectedItem?.item_image ?? ""}/>
-                    </div>
-                </form>
+                <UpdateMenuForm selectedItem={selectedItem} groupedMenuItems={groupedMenuItems} />
             </div>
         </div>
 

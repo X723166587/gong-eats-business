@@ -19,7 +19,7 @@ export default function OrdersPage() {
         // }
         // setPrevOrderCount(updatedOrders.length)
         setOrders(updatedOrders)
-    }, [prevOrderCount])
+    }, [])
 
     useEffect(() => {
         void fetchOrders()
@@ -29,7 +29,7 @@ export default function OrdersPage() {
 
         // Cleanup interval on unmount
         return () => clearInterval(intervalID)
-    }, [])
+    }, [fetchOrders])
 
 
     const preparingOrders = orders.filter(order => order.order_status === "confirmed" || order.order_status === "accepted")

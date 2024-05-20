@@ -4,7 +4,7 @@ import {useRouter} from 'next/navigation'
 import {motion} from "framer-motion";
 import {Button} from "@/app/components/button";
 import FrozenRouter from "@/app/components/frozen-router";
-import {MouseEventHandler, useCallback, useEffect, useRef} from "react";
+import React, {MouseEventHandler, useCallback, useRef} from "react";
 import {emphasizedEasing_Long} from "@/app/api/motion-config";
 
 export default function Modal({children}: { children: React.ReactNode }) {

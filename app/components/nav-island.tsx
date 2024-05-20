@@ -2,13 +2,8 @@
 
 import Link from "next/link";
 import {Button} from "@/app/components/button";
-import Search from "@/app/components/search";
-import React, {useState} from "react";
-import {useItemStore} from "@/app/providers/item-store-provider";
-import Image from "next/image";
-import Stepper from "@/app/components/stepper";
+import React from "react";
 import {motion, AnimatePresence, MotionProps} from "framer-motion";
-import getItems from "@/app/api/get-bag-items";
 import {emphasizedEasing_Long} from "@/app/api/motion-config";
 
 export default function NavIsland() {
