@@ -12,7 +12,7 @@ export default function OrdersPage() {
     const [prevOrderCount, setPrevOrderCount] = useState<number>(0)
 
     const fetchOrders = useCallback(async () => {
-        const updatedOrders = await getOrders()
+        const updatedOrders = await getOrders(1)
         // TODO: Check if there's a new order and notify the user
         // if (updatedOrders.length > prevOrderCount) {
         //     console.log("New order received!")

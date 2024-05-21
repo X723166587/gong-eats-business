@@ -1,10 +1,9 @@
 'use server'
 
-import {OrderData, CustomerData, OrderItemData} from '@/app/api/definitions'
+import {OrderData, CustomerData, OrderItemData, RestaurantData} from '@/app/api/definitions'
 import getServerData from "@/app/api/get-server-data";
 
-export default async function getOrders() {
-    const restaurantId = 1
+export default async function getOrders(restaurantId: RestaurantData["restaurant_id"]) {
     const ordersData = await getServerData(`/orders/restaurant/${restaurantId}`)
 
     let orders: Array<OrderData & CustomerData & {item_count: number}> = []

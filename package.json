@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@ariakit/react": "^0.4.6",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.18",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@mui/x-charts": "^7.5.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.2",
     "immer": "^10.1.1",
@@ -19,6 +24,7 @@
     "react": "^18",
     "react-dom": "^18",
     "slugify": "^1.6.6",
+    "styled-components": "^6.1.11",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

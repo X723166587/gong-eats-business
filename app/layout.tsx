@@ -8,25 +8,21 @@ import {ThemeStoreProvider} from "@/app/providers/theme-store-provider";
 import ClientLayout from "@/app/client-layout";
 
 export const metadata: Metadata = {
-  title: "Gong Eats Business",
-  description: "Manager your restaurant, orders, and menu items with Gong Eats Business.",
+    title: "Gong Eats Business",
+    description: "Manager your restaurant, orders, and menu items with Gong Eats Business.",
 };
 
-export default function RootLayout({manager, unauthenticated}: {
-  manager: React.ReactNode,
-  unauthenticated: React.ReactNode
-}) {
+export default function RootLayout(props: { manager: React.ReactNode, unauthenticated: React.ReactNode }) {
 
-  // TODO: Replace with authentication logic
-  const userType: "manager" | "unauthenticated" = "manager"
+    const userType: "manager" | "unauthenticated" = "manager"
 
-  return (
-      <ThemeStoreProvider>
-        <ItemStoreProvider>
-          <ClientLayout>
-            {userType === "manager" ? manager : unauthenticated}
-          </ClientLayout>
-        </ItemStoreProvider>
-      </ThemeStoreProvider>
-  );
+    return (
+        <ThemeStoreProvider>
+            <ItemStoreProvider>
+                <ClientLayout>
+                    {userType === "manager" ? props.manager : props.unauthenticated}
+                </ClientLayout>
+            </ItemStoreProvider>
+        </ThemeStoreProvider>
+    );
 }

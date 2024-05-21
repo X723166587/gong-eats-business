@@ -27,5 +27,6 @@ module.exports = {
             }
         ]
     },
-    output: 'standalone'
+    output: 'standalone',
+    transpilePackages: ['@mui/x-charts']
 }
